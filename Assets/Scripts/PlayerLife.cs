@@ -60,7 +60,7 @@ public class PlayerLife : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<PlayerMovement>().enabled = false;
         dead = true;
-        Debug.Log("dead");
+        
         // Wait a moment and reload level
         Invoke(nameof(ReloadLevel), waitTime);
     }
