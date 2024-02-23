@@ -1,11 +1,44 @@
+/*
+* Filename:    PlayerMovement.cs
+* Project:     Jump game
+* By:          Victor Barbosa
+* Date:        February 21, 2024
+* Description: This script is used to control the player's movement and jump.
+*/
+
+
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
 
 public class PlayerLife : MonoBehaviour
 {
+    // Variables
+    bool dead = false;
+    float waitTime = 1.3f;
+    float deathHeight = -4f;
     
 
+    private void Update()
+    {
+        // Die if fall
+        if (transform.position.y < deathHeight && !dead)
+        {            
+            Die();
+        }
+    }
+
+
+
+    // Function:      OnCollisionEnter
+    // Description:   If the player collides with the enemy, call Die function
+    // Parameter:     Collision collision
+    // Returns:       void
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("EnemyBody"))
@@ -15,18 +48,32 @@ public class PlayerLife : MonoBehaviour
     }
 
 
-
+    
+    // Function:      Die
+    // Description:   Disable Player controls, wait a moment and reload level
+    // Parameter:     None
+    // Returns:       void
     private void Die()
     {
-        MeshRenderer playerMeshRenderer = GetComponent<MeshRenderer>();
-        Rigidbody playerRigidBody = GetComponent<Rigidbody>();
-        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        // Disable Player controls
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<PlayerMovement>().enabled = false;
+        dead = true;
+        Debug.Log("dead");
+        // Wait a moment and reload level
+        Invoke(nameof(ReloadLevel), waitTime);
+    }
 
 
-        playerMeshRenderer.enabled = false;
-        playerRigidBody.isKinematic = true;
-        playerMovement.enabled = false;
 
-
+    // Function:      ReloadLevel
+    // Description:   Reload the current level
+    // Parameter:     None
+    // Returns:       void
+    private void ReloadLevel()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
 }

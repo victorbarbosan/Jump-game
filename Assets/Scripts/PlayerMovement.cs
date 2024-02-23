@@ -45,8 +45,15 @@ public class PlayerMovement : MonoBehaviour
         // Jump
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
+            Jump();
         }
+    }
+
+
+
+    void Jump()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
     }
 
 
@@ -56,6 +63,17 @@ public class PlayerMovement : MonoBehaviour
     // Returns:       bool
     bool IsGrounded()
     {
-        return Physics.CheckSphere(groundCheck.position, .1f, ground);
+        return Physics.CheckSphere(groundCheck.position, .1f, ground);        
+    }
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("EnemyHead"))
+        {
+            Destroy(collision.transform.parent.gameObject);
+            Jump();
+        }
     }
 }
