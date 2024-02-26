@@ -2,7 +2,7 @@
 * Filename:    PlayerMovement.cs
 * Project:     Jump game
 * By:          Victor Barbosa
-* Date:        February 21, 2024
+* Date:        February 17, 2024
 * Description: This script is used to control the player's movement and jump.
 */
 
@@ -21,19 +21,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 8f;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask ground;
+    [SerializeField] AudioSource jumpSound;
     Rigidbody rb;
     float horizontalInput;
     float verticalInput;
 
 
-    // Start is called before the first frame update
+    // Start
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
 
-    // Update is called once per frame
+    // Update
     void Update()
     {
         // Movement
@@ -51,15 +52,21 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    // Function:      Jump
+    // Description:   Make the player jump
+    // Parameter:     None
+    // Returns:       void
     void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
+        jumpSound.Play();
     }
+
 
 
     // Function:      IsGrounded
     // Description:   Check if the player is grounded
-    // parameter:     None
+    // Parameter:     None
     // Returns:       bool
     bool IsGrounded()
     {
@@ -68,6 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    // Function:      OnCollisionEnter
+    // Description:   If the player collides with the enemy head, destroy the enemy and make the player jump
+    // Parameter:     Collision collision
+    // Returns:       void
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("EnemyHead"))

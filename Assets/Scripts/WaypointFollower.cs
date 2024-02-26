@@ -19,11 +19,11 @@ public class WaypointFollower : MonoBehaviour
     //Variables
     [SerializeField] GameObject[] waypoints;
     [SerializeField] float speed = 1f;
-
     int currentWaypointIndex = 0;
 
 
-    // Update is called once per frame
+
+    // Update
     void Update()
     {
         // Check if object position is the same as waypoint and increase index

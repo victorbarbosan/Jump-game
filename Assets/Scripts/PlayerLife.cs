@@ -19,11 +19,14 @@ using UnityEngine.SceneManagement;
 public class PlayerLife : MonoBehaviour
 {
     // Variables
+    [SerializeField] AudioSource dieSound;
     bool dead = false;
     float waitTime = 1.3f;
     float deathHeight = -4f;
     
 
+
+    // Update
     private void Update()
     {
         // Die if fall
@@ -55,6 +58,9 @@ public class PlayerLife : MonoBehaviour
     // Returns:       void
     private void Die()
     {
+        // Play sound
+        dieSound.Play();
+
         // Disable Player controls
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<MeshRenderer>().enabled = false;

@@ -14,7 +14,7 @@ using UnityEngine;
 
 
 
-public class NewBehaviourScript : MonoBehaviour
+public class StickyPlatform : MonoBehaviour
 {
 
     // Function:      OnCollisionEnter
